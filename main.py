@@ -1,5 +1,6 @@
 import sys
 import json
+import os
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout,
@@ -12,6 +13,17 @@ class PomodoroTimer(QWidget): # this tells Qt that this is a widget
         super().__init__() # calls the QWidget's init to initialize everything Qt expects
         self.setWindowTitle("Pomodoro Timer")
         self.resize(360, 350)
+
+        default_data = [
+            {"name": "Work", "time": 25},
+            {"name": "Break", "time": 5}
+        ]
+
+        # Create time.json if it doesn't exist
+        if not os.path.exists("time.json"):
+            with open("time.json", "w") as f:
+                json.dump(default_data, f, indent=4)
+
 
         #Qt stylesheet
         self.setStyleSheet("""
