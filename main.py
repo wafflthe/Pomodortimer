@@ -99,6 +99,9 @@ QLCDNumber {
 
         #Widget config
 
+        on = False
+        #random ahh variable for toggle for start/pause
+
 
         self.sot_button = QCheckBox("Stay on top")
         self.sot_button.stateChanged.connect(self.stay_on_top)
@@ -115,6 +118,9 @@ QLCDNumber {
         self.timer.timeout.connect(self.update_time)
         #timer config
 
+        self.pause_start_button = QPushButton("Start")
+        self.pause_start_button.clicked.connect(self.startpause)
+        
         self.start_button = QPushButton("Start")
         self.start_button.clicked.connect(self.start)
         self.stop_button = QPushButton("Pause")
@@ -163,8 +169,10 @@ QLCDNumber {
         tab1_layout.addWidget(self.display)
 
         button_row = QHBoxLayout()
-        button_row.addWidget(self.start_button)
-        button_row.addWidget(self.stop_button)
+        button_row.addWidget(self.pause_start_button)
+        #button_row.addWidget(self.start_button)
+        #button_row.addWidget(self.stop_button)
+        # replace two above for a start/stop button that switches
         button_row.addWidget(self.reset_button)
 
         tab1_layout.addLayout(button_row)
@@ -185,7 +193,6 @@ QLCDNumber {
         tab2_layout.addLayout(break_row)
 
         final_row = QHBoxLayout()
-        final_row.addWidget(self.sot_button)
         final_row.addWidget(self.submit_button)
         tab2_layout.addLayout(final_row)
 
@@ -246,6 +253,15 @@ QLCDNumber {
         seconds = self.remaining % 60
         self.display.display(f"{minutes:02d}:{seconds:02d}")
 
+    def startpause(self):
+        if not self.timer.isActive():
+            self.timer.start(1000)
+            self.pause_start_button.setText("Pause")
+        else:
+            self.timer.stop()
+            self.pause_start_button.setText("Start")
+            
+        
     def start(self):
         self.timer.start(1000)
 
