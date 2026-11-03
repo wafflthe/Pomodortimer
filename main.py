@@ -195,6 +195,7 @@ QLCDNumber {
         final_row = QHBoxLayout()
         final_row.addWidget(self.submit_button)
         tab2_layout.addLayout(final_row)
+        tab2_layout.addWidget(self.sot_button)
 
         
 
@@ -289,11 +290,7 @@ QLCDNumber {
         self.display.display(f"{minutes:02d}:{seconds:02d}")
 
     def stay_on_top(self, state):
-        if state == Qt.Checked:
-            self.setWindowFlag(Qt.WindowStaysOnTopHint, True)
-        else:
-            self.setWindowFlag(Qt.WindowStaysOnTopHint, False)
-        
+        self.setWindowFlag(Qt.WindowStaysOnTopHint, self.sot_button.isChecked())
         self.show()
     
 
